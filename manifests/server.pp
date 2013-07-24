@@ -10,7 +10,8 @@ class rsync::server(
   $use_xinetd = true,
   $address    = '0.0.0.0',
   $motd_file  = 'UNSET',
-  $use_chroot = 'yes'
+  $use_chroot = 'yes',
+  $enable = true
 ) inherits rsync {
 
   $rsync_fragments = '/etc/rsync.d'
@@ -44,6 +45,10 @@ class rsync::server(
 
   file { "${rsync_fragments}/header":
     content => template('rsync/header.erb'),
+  }
+
+  file { "/etc/default/rsync":
+    content => template('rsync/default.erb'),
   }
 
   # perhaps this should be a script
